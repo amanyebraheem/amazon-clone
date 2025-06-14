@@ -1,67 +1,118 @@
 
 
-'use client' ;
-import Image from 'next/image';
-import React, {  useState } from 'react';
-import { Product } from '../lib/Type';
+// 'use client' ;
+// import Image from 'next/image';
+// import React, {  useState } from 'react';
+// import { Product } from '../lib/Type';
 
 
-interface Props{
+// interface Props{
 
-product:Product
+// product:Product
 
-}
-
-
-const ProductImage = ({product}:Props) => {
-
-const [imgUrl , setImgUrl] = useState(product?.images[0]);
+// }
 
 
+// const ProductImage = ({product}:Props) => {
 
+// const [imgUrl , setImgUrl] = useState(product?.images[0]);
 
 
 
-    return (
+
+
+
+//     return (
      
 
- <div className='flex flex-start px-10'>
+//  <div className='flex flex-start px-10'>
 
-  <div >
+//   <div >
 
-            {/* rightSide */}
-            {product?.images?.map((item,index)=>(
+//             {/* rightSide */}
+//             {product?.images?.map((item,index)=>(
 
-<Image 
-onClick={()=>setImgUrl(item)}
-src={item}
-alt='productImage'
- key={index} 
- width={200} 
- height={200} 
+// <Image 
+// onClick={()=>setImgUrl(item)}
+// src={item}
+// alt='productImage'
+//  key={index} 
+//  width={200} 
+//  height={200} 
  
- className={`w-24 h-24 object-contain cursor-pointer opacity-80 hover:opacity-100 duration-200 border border-gray-200 mb-1 bg-gray-100 p-1  ${imgUrl === item && "border-gray-500 rounded-sm opacity-100 " }`}
- />
+//  className={`w-24 h-24 object-contain cursor-pointer opacity-80 hover:opacity-100 duration-200 border border-gray-200 mb-1 bg-gray-100 p-1  ${imgUrl === item && "border-gray-500 rounded-sm opacity-100 " }`}
+//  />
   
 
-            ))}
-            </div>
-            {/* leftSide */}
-          <div className='bg-gray-100 rounded-md  ml-5 w-full max-h-[550px]'>
+//             ))}
+//             </div>
+//             {/* leftSide */}
+//           <div className='bg-gray-100 rounded-md  ml-5 w-full max-h-[550px]'>
 
 
-             <Image src={imgUrl}   alt='mainImage'
+//              <Image src={imgUrl}   alt='mainImage'
            
-           width={500}
-           height={500}
-           className='w-full h-full  object-contain '
-           />
-          </div>
+//            width={500}
+//            height={500}
+//            className='w-full h-full  object-contain '
+//            />
+//           </div>
         
 
 
-       </div>
-    );
+//        </div>
+//     );
+// }
+
+// export default ProductImage;
+'use client';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import { Product } from '../lib/Type';
+
+interface Props {
+  product: Product;
 }
+
+const ProductImage = ({ product }: Props) => {
+  // ✅ استخدم thumbnail إذا ما فيش صور
+  const [imgUrl, setImgUrl] = useState<string>(
+    product.images && product.images.length > 0
+      ? product.images[0]
+      : product.thumbnail // fallback
+  );
+
+  return (
+    <div className='flex flex-start px-10'>
+      {/* الصور الصغيرة على اليمين */}
+      <div>
+        {product.images?.map((item, index) => (
+          <Image
+            key={index}
+            src={item}
+            alt='productImage'
+            width={200}
+            height={200}
+            onClick={() => setImgUrl(item)}
+            className={`w-24 h-24 object-contain cursor-pointer opacity-80 hover:opacity-100 duration-200 border border-gray-200 mb-1 bg-gray-100 p-1 ${
+              imgUrl === item && 'border-gray-500 rounded-sm opacity-100'
+            }`}
+          />
+        ))}
+      </div>
+
+      {/* الصورة الرئيسية على اليسار */}
+      <div className='bg-gray-100 rounded-md ml-5 w-full max-h-[550px]'>
+        <Image
+          src={imgUrl}
+          alt='mainImage'
+          width={500}
+          height={500}
+          className='w-full h-full object-contain'
+        />
+      </div>
+    </div>
+  );
+};
 
 export default ProductImage;

@@ -4,9 +4,13 @@ export interface Product {
   description: string;
   price: number;
   category: string;
+  brand?: string;
   thumbnail: string;
   images?: string[];
-  quantity?: number;
-   discountPercentage?: number;
+  rating?: number;
+  discountPercentage: number;
 }
 
+export interface CartProduct extends Product {
+  quantity: number;
+}

@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -18,7 +17,7 @@ const CartPage = () => {
   } = store();
 
   const totalPrice = cartProduct.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item) => acc + item.price * (item.quantity ?? 1),
     0
   );
 
@@ -40,17 +39,24 @@ const CartPage = () => {
           className="flex items-center justify-between border p-4 rounded-md shadow-sm"
         >
           <div className="flex items-center gap-4">
-            <Image
-              src={product.thumbnail}
-              alt={product.title}
-              width={60}
-              height={60}
-              className="rounded-md"
-            />
+            {product.thumbnail ? (
+              <Image
+                src={product.thumbnail}
+                alt={product.title}
+                width={60}
+                height={60}
+                className="rounded-md"
+                unoptimized
+              />
+            ) : (
+              <div className="w-15 h-15 bg-gray-200 flex items-center justify-center rounded-md text-gray-500">
+                No Image
+              </div>
+            )}
             <div>
               <h3 className="font-semibold">{product.title}</h3>
               <p className="text-sm text-gray-600">
-                Quantity: {product.quantity}
+                Quantity: {product.quantity ?? 1}
               </p>
               <p className="text-sm">
                 Price: <PriceFormat amount={product.price} />
