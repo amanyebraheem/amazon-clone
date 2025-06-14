@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { stripe } from "../lib/stripe"; // استيراد من ملف مركزي
+import {stripe} from  "../lib/stripe"
 
 interface CartProduct {
   title: string;

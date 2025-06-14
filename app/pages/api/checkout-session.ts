@@ -1,6 +1,6 @@
-// pages/api/checkout.ts
 import type { NextApiRequest, NextApiResponse } from "next";
-import { stripe } from "../../lib/stripe";
+import { stripe } from "../../lib/stripe"; 
+
 
 interface CartItem {
   title: string;
@@ -37,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       cancel_url: `${req.headers.origin}/cancel`,
     });
 
-    res.status(200).json({ id: session.id, url: session.url });
+    res.status(200).json({ id: session.id });
   } catch (error) {
     res.status(500).json({
       error: error instanceof Error ? error.message : "Unknown error occurred.",
