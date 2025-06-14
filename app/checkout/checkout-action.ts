@@ -1,14 +1,7 @@
-
 "use server";
 
 import { redirect } from "next/navigation";
-import Stripe from "stripe";
-
-
-const stripe = new (Stripe as any)(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2023-10-16",
-});
-
+import { stripe } from "../lib/stripe"; // استيراد من ملف مركزي
 
 interface CartProduct {
   title: string;
@@ -22,7 +15,7 @@ export const checkoutAction = async (formData: FormData): Promise<void> => {
 
   const line_items = cartProduct.map((item) => ({
     price_data: {
-      currency: "cad",
+      currency: "usd",
       product_data: { name: item.title },
       unit_amount: Math.round(item.price * 100),
     },
@@ -39,4 +32,3 @@ export const checkoutAction = async (formData: FormData): Promise<void> => {
 
   redirect(session.url!);
 };
-

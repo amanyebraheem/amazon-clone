@@ -1,11 +1,5 @@
-
-
 import type { NextApiRequest, NextApiResponse } from "next";
-import Stripe from "stripe";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2023-10-16",
-});
+import { stripe } from "../../lib/stripe";
 
 interface CartItem {
   title: string;
@@ -20,7 +14,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    
     const { items }: { items: CartItem[] } = req.body;
 
     const line_items = items.map((item) => ({
@@ -45,10 +38,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     res.status(200).json({ id: session.id });
   } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "Unknown error occurred." });
-    }
+    res.status(500).json({
+      error: error instanceof Error ? error.message : "Unknown error occurred.",
+    });
   }
 }
